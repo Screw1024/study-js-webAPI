@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+    * {
+      margin: 0;
+      padding: 0
+    }
+
+    ul {
+      list-style: none
+    }
+
+    img {
+      vertical-align: top
+    }
+
+    .box {
+      width: 730px;
+      height: 454px;
+      margin: 100px auto;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .inner {
+      width: 730px;
+      height: 454px;
+      background-color: pink;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .inner ul {
+      width: 1000%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .inner li {
+      float: left;
+    }
+
+    .square {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .square span {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-color: #fff;
+      text-align: center;
+      line-height: 16px;
+      cursor: pointer;
+    }
+
+    .square span.current {
+      background-color: orangered;
+      color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+<div class="box" id="box">
+  <div class="inner"><!--相框-->
+    <ul>
+      <li><a href="#"><img src="images14/1.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images14/2.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images14/3.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images14/4.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images14/5.jpg" alt=""/></a></li>
+      <li><a href="#"><img src="images14/6.jpg" alt=""/></a></li>
+    </ul>
+    <div class="square">
+      <span class="current">1</span>
+      <span>2</span>
+      <span>3</span>
+      <span>4</span>
+      <span>5</span>
+      <span>6</span>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  	function myGet(id){
+  		return document.getElementById(id);
+  	}
+  	var box = myGet("box");
+  	// 获取最外面的盒子div
+  	var inner = box.children[0];
+  	// 获取相框
+  	var innerWidth = inner.offsetWidth;
+  	// 获取相框的宽度
+  	var ulObj = inner.children[0];
+  	// 获取ul	
+  	var spanObjs = inner.children[1].children;
+  	// 获取所有的span标签
+
+  	for(var i=0;i<spanObjs.length;i++){
+        spanObjs[i].setAttribute("index",i);
+        // 将每个span标签添加一个自定义属性值，方便后面的操作
+
+  		// 为每个标签，添加一个鼠标进入事件
+  		spanObjs[i].onmouseover = function(){
+           for(var j=0;j<spanObjs.length;j++){
+           	spanObjs[j].removeAttribute("class");
+           }
+           // 清除其他一开始的样式，全部清理完
+           this.className = "current";
+           // 清理完成之后将选中的span标签设置class="current"
+           var index = this.getAttribute("index");
+           animate(ulObj,-index*innerWidth);
+           // 这里移动的是图片的位置，所以移动的值一定要为负数，这样图片才能向左移
+  		}
+  	}
+
+    function animate(element,target){
+        	clearInterval(element.intervalName);
+        	// 每次点击移动按钮的时候,清理定时器,将原来的定时器清理掉,不然会叠加多线程多个定时器,加快速度
+        	element.intervalName = setInterval(function(){
+	            var current = element.offsetLeft;
+	            // 通过.style.left不能获取style标签里面的值，只能获取到内部样式的值
+	            // 而.offsetLeft这个值，可以获取到任何位置，div这个属性的.left的值，不带单位
+	            var step = 80;
+	            // 每次增加10像素
+	            step = current<target?step:-step;
+	            // 判断是在目标的左边还是右边，从而判断是前进还是后退
+	            current += step;
+	            if(Math.abs(target-current)>Math.abs(step)){
+	            	element.style.left = current + "px";
+	            }else{
+	            	clearInterval(element.intervalName);
+	            	element.style.left = target + "px";
+	            	// 当执行到最后一步时，如果不满增加的长度，而再一次执行时，而又超过目标像素的距离，
+	                // 所以设置直接一步到目标距离,而不会
+	            }  	
+            },30)
+        }	
+
+  </script>
+</div>
+</head>
+<body>
+	
+</body>
+</html>

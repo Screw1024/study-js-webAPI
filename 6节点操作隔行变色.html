@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>title</title
+</head>
+<body>
+<input type="button" value="变色" id="btn"/>
+<ul id="cool">
+  <li>陈小帅</li>
+  <li>又变帅了哦</li>
+  <li>陈小帅</li>
+  <li>又变帅了哦</li>
+  <li>陈小帅</li>
+  <li>又变帅了哦</li>
+  <li>陈小帅</li>
+  <li>又变帅了哦</li>
+</ul>
+<script>
+  function myGet(id){
+    return document.getElementById(id);
+  }
+  // 封装代码
+
+  myGet("btn").onclick = function(){
+    var count = 0;
+    //节点一共有 17个节点，而li标签只有8个，如果不加一个计数的变量，
+    //如果不加计数刚好本来的红色变化部分的成了空换行文本的位置，悲剧了
+
+    var nodes = myGet("cool").childNodes;
+    for(var i=0; i<nodes.length; i++){
+        if(nodes[i].nodeType==1 && nodes[i].nodeName=="LI"){ 
+          // 通过.nodeName获取到的节点的名字，标签名大写。通过.nodeType获取到的类型，标签为1
+          nodes[i].style.backgroundColor = count%2 == 0 ?"red" :"yellow";
+          // 三元表达式，先将后面的count%2这个三选表达式写出来，然后再加上前面的
+          count++;
+          // 每次执行一次颜色改变之后，获取到下一个li标签的类型之后，再执行一次判断
+        }
+    }
+  }
+</script>
+</body>
+</html>

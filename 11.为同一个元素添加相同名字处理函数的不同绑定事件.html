@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="点我不花一分钱" id="btn">
+
+	<script type="text/javascript">
+  		function myGet(id){
+  			return document.getElementById(id);
+  		}
+      
+      myGet("btn").onclick = f1;
+      myGet("btn").onmouseover = f1;
+      myGet("btn").onmouseout = f1;
+
+      function f1(e){
+      	switch (e.type){
+      	   //通过.type判断事件的类型，而做出相应的switch和case对应的操作
+             case "click": alert("装备不花一分钱");
+             break;
+             case "mouseover": this.style.backgroundColor = "blue";
+             break;
+             case "mouseout": this.style.backgroundColor = "yellow";
+      	}
+      	// 这里一定要注意，绑定事件类型的名字本来前面就不带on，这是微软的特例，其他浏览器是为了兼容
+      }
+	</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 300px;
+      height: 500px;
+      border: 1px solid red;
+      margin: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content {
+      padding: 5px 18px 5px 5px;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+    }
+
+    .scroll {
+      width: 18px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+	  background-color: #797272;
+    }
+
+    .bar {
+      height: 100px;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #BF7777;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+	<div class="box" id="box">
+	  <div class="content" id="content">
+
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+	   好好学习，天天向上，毛主席说的。
+
+	  </div><!--文字内容-->
+	  <div id="scroll" class="scroll"><!--装滚动条的层-->
+	    <div class="bar" id="bar"></div><!--滚动条-->
+	  </div>
+	</div>
+
+	<script type="text/javascript">
+		function myGet(id){
+			return document.getElementById(id);
+		}
+
+		var box = myGet("box");
+		// 获取显示文字区域的盒子
+		var content = myGet("content");
+		// 实际的内容
+		var scroll = myGet("scroll");
+		// 获取z装滚动条的部分
+		var bar = myGet("bar");
+		// 获取滚动条
+		var height = scroll.offsetHeight * (box.offsetHeight / content.offsetHeight);
+		bar.style.height = height + "px";
+		// 滑动条的高度 = 装滑动条的容器高度 * 文字显示区域的高度和文本内容高度的比值
+
+		bar.onmousedown = function(e){
+			var spaceY = e.clientY - bar.offsetTop;
+			// 鼠标点击时，点击位置距离上边的距离
+			document.onmousemove = function(e){
+				var y = e.clientY - spaceY;
+				y = y<0 ? 0 : y;
+				y = y>scroll.offsetHeight - bar.offsetHeight ? scroll.offsetHeight - bar.offsetHeight : y;
+				// 控制滚动条的移动范围
+				bar.style.top = y + "px";
+
+				window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+				// 鼠标移动时，移除其他功能的兼容代码
+
+				var moveY = y * ((content.offsetHeight-box.offsetHeight)/(scroll.offsetHeight-bar.offsetHeight));
+				// 内容移动距离 = 滚动条移动的距离 * 内容移动最大值和滚动条移动最大值的比值
+				content.style.marginTop = -moveY + "px";
+			}
+		}
+		document.onmouseup = function(){
+			document.onmousemove = null;
+		}
+	</script>
+	
+</body>
+</html>

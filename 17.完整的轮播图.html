@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border: 0;
+    }
+
+    .all {
+      width: 730px;
+      height: 454px;
+      padding: 7px;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      position: relative;
+    }
+
+    .inner {
+      width: 730px;
+      height: 454px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .inner li {
+      width: 730px;
+      height: 454px;
+      float: left;
+    }
+
+    .inner ul {
+      position: absolute;
+      left: 0;
+      top: 0px;
+      width: 40000px;
+    }
+
+    .all ol {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    .all ol li {
+      float: left;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .all ol li.current {
+      background: #DB192A;
+    }
+
+    #arr {
+      display: none;
+    }
+
+    #arr span {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      margin-top: -20px;
+      background: #000;
+      cursor: pointer;
+      line-height: 40px;
+      text-align: center;
+      font-weight: bold;
+      font-family: '黑体';
+      font-size: 30px;
+      color: #fff;
+      opacity: 0.3;
+      border: 1px solid #fff;
+    }
+
+    #arr #right {
+      right: 5px;
+      left: auto;
+    }
+  </style>
+</head>
+<body>
+	<div class="all" id='box'>
+	  <div class="inner"><!--相框-->
+	    <ul>
+	      <li><img src="images14/1.jpg"></li>
+	      <li><img src="images14/2.jpg"></li>
+	      <li><img src="images14/3.jpg"></li>
+	      <li><img src="images14/4.jpg"></li>
+	      <li><img src="images14/5.jpg"></li>
+	    </ul>
+	    <ol>
+	    </ol>
+	  </div>
+	  <div id="arr"><span id="left">&lt;</span><span id="right">&gt;</span></div>
+	</div>
+
+	<script type="text/javascript">
+		function myGet(id){
+			return document.getElementById(id);
+		}
+
+		var box = myGet("box");
+		// 获取盒子
+		var inner = box.children[0];
+		// 获取显示的区域
+		var innerWidth = inner.offsetWidth;
+		// 获取显示区域的宽度
+		var ulObj = inner.children[0];
+		// 获取ul，为了移动图片，显示出来
+		var liObjs = ulObj.children;
+		// 获取li标签的伪数组，为了后面的判断长度进而定义自定义属性的索引
+		var olObj = inner.children[1];
+		// 获取ol对象，为了后面的位置的索引的小按钮，是动态创建的
+		var arrObj = myGet("arr");
+		// 获取左右焦点的div
+
+    var index = 0;
+    // 先将index定义一个全局的为0值的变量
+
+       
+    for(var i=0;i<liObjs.length;i++){
+    	var olLi = document.createElement("li");	
+    	olObj.appendChild(olLi);
+    	olLi.innerHTML = (i+1); 
+    	// 在ol中动态创建li标签，个数跟上面的承载图片的li标签的个数一样
+       
+    	olLi.setAttribute("index",i);
+      // 为每个ol中的li提供一个自定义的索引值
+      olLi.onmouseover = function(){
+    	  for(var j=0;j<olObj.children.length;j++){
+    		olObj.children[j].removeAttribute("class");
+    	}
+    	// 当鼠标进入ol中的任何一个li标签时，将其他li标签的属性全部去掉
+    	this.className = "current";
+    	// 将进入的li标签的属性设置为高亮
+    	index = this.getAttribute("index");
+    	animate(ulObj,-index*innerWidth);
+      }
+    // 这个也是排他的功能，在想要将目标对象进行高亮显示的时候，先对其他不符合条件的样式全部去除
+    }
+   
+    olObj.children[0].className = "current";
+    // 将ol第一个li标签默认设置成高亮类，这个必须在排他功能的后面，因为前面一步会清空样式
+
+
+    ulObj.appendChild(ulObj.children[0].cloneNode(true));
+		// .cloneNode()是复制节点功能，里面的参数是boolean类型，true为将属性也复制，false不保留属性。
+    // 这步操作是为了用户看到的视觉切换效果不那么明显，同时在动态创建下面的带字的ol时，不会将这个算上
+    
+
+    var intervalName = setInterval(clickRight,1500);
+    // 定义一个计时器，每隔1.5s进行一次右击按钮的操作
+
+		box.onmouseover = function(){
+           arr.style.display = "block";
+           clearInterval(intervalName);
+           // 鼠标进入后，清理定时器
+		};
+		box.onmouseout = function(){
+           arr.style.display = "none";
+           intervalName = setInterval(clickRight,1000);
+           // 鼠标离开重新定义一个同名定时器，为了清理
+		};
+    // 通过鼠标进入和离开事件，而显示左右两边拓展的显示和隐藏
+
+
+    myGet("right").onclick = clickRight;
+    // 将点击右边按钮的代码封装起来，用定时器调用，达到自动切换的效果
+    function clickRight(){
+      if(index==liObjs.length-1){
+        index = 0;
+        ulObj.style.left = 0 + "px";
+      }
+      index++;
+      // 在获取元素模块下面，一开始就定义一个index的全局变量值为0，在鼠标进入小方块里面index的值改变
+      // 改变的内存中指向的值，全局变量也可以使用
+      animate(ulObj,-index*innerWidth);
+
+      if(index == liObjs.length-1){
+        // 这里之所以长度 -1，不是因为默认的属性从零开始，这个是自定义属性，将最后一个减1是因为第六张图片跟第一张图片的显示效果是一致的
+        olObj.children[index-1].className = "";
+        olObj.children[0].className = "current";
+        // 如果在最后一个高亮的话，点击下一张图片，最后一个隐藏起来，将1高亮。
+      }else{
+        for(var i=0;i<olObj.children.length-1;i++){
+          olObj.children[i].removeAttribute("class");
+        }
+        olObj.children[index].className = "current";
+      }
+      // 排他功能，将其他的标签样式全部去除，将选中的带有数字的标签高亮显示
+    }
+
+    myGet("left").onclick  = function(){
+      if(index==0){
+        index = olObj.children.length -1;
+        ulObj.style.left = -index*innerWidth + "px";
+        // 高亮类在第一个的时候，将索引变为最后一个的前一个，因为最后一张图片内容跟第一张一样
+        // 同时，将图片的位置移动到倒数第二张图片的位置，这个跳转是一瞬间执行的，没有过渡效果，可以自己再封装一个动画
+
+      }else{
+        index--;
+        animate(ulObj,-index*innerWidth);
+        // 点击一次ul向右移动一张图片的距离，而显示效果是向左移动一张图片的大小
+
+        for(var i=0; i<olObj.children.length-1;i++){
+          olObj.children[i].removeAttribute("class");
+        }
+        olObj.children[index].className = "current";
+        // 排他功能，跟上面的一样
+      }
+    }
+
+
+    function animate(element,target){
+    	clearInterval(element.intervalName);
+    	// 每次点击移动按钮的时候,清理定时器,将原来的定时器清理掉,不然会叠加多线程多个定时器,加快速度
+    	element.intervalName = setInterval(function(){
+        var current = element.offsetLeft;
+        // 通过.style.left不能获取style标签里面的值，只能获取到内部样式的值
+        // 而.offsetLeft这个值，可以获取到任何位置，div这个属性的.left的值，不带单位
+        var step = 80;
+        // 每次增加10像素
+        step = current<target?step:-step;
+        // 判断是在目标的左边还是右边，从而判断是前进还是后退
+        current += step;
+        if(Math.abs(target-current)>Math.abs(step)){
+        	element.style.left = current + "px";
+        }else{
+        	clearInterval(element.intervalName);
+        	element.style.left = target + "px";
+        	// 当执行到最后一步时，如果不满增加的长度，而再一次执行时，而又超过目标像素的距离，
+          // 所以设置直接一步到目标距离
+        }  	
+      },30)
+    }     
+	</script>	
+</body>
+</html>

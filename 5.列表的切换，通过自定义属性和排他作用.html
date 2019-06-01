@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    .box {
+      width: 400px;
+      height: 300px;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      overflow: hidden;
+    }
+
+    .hd {
+      height: 45px;
+    }
+
+    .hd span {
+      display: inline-block;
+      width: 90px;
+      background-color: pink;
+      line-height: 45px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .hd span.current {
+      background-color: purple;
+    }
+
+    .bd li {
+      height: 255px;
+      background-color: purple;
+      display: none;
+    }
+
+    .bd li.current {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+   <div class="box" id="box">
+	  <div class="hd">
+	    <span class="current">陈小帅</span>
+	    <span>陈大帅</span>
+	    <span>陈帅帅</span>
+	    <span>chenxiaoshuai</span>
+	  </div>
+	  <div class="bd">
+	    <ul>
+	      <li class="current">陈小帅是真的帅</li>
+	      <li>陈大帅是真的帅</li>
+	      <li>陈帅帅是真的帅</li>
+	      <li>chenxiaoshuai是真的帅</li>
+	    </ul>
+	  </div>
+    </div>
+   
+    <script type="text/javascript">
+    	function myGet(id){
+    		return document.getElementById(id);
+    	}
+
+    	var box = myGet("box");
+    	// 先通过id获取hd和bd的盒子
+
+    	var hd = box.getElementsByTagName('div')[0];
+    	// js中字符串目前单引号和双引号没有区分，有时双引号内部嵌套双引号引起错误的话，将内部的双引号改为单引号
+    	var bd = box.getElementsByTagName('div')[1];
+    	// 上面分别获取两个div的盒子，通过getElementsByTagName()获取到的对象存储到伪数组中，通过数组的方法调用伪元素中的标签
+
+    	var lis = bd.getElementsByTagName("li");
+        // 获取ul下面所有的li标签，储存在伪数组lis中
+        // 这段代码原来为了更具有逻辑性，放在下面的k循环的，但是考虑到每次循环获取一次，会拖慢运行效率
+
+    	var spans = hd.getElementsByTagName('span');
+    	for(var i=0; i<spans.length;i++){
+
+            spans[i].setAttribute("index",i);
+            // 在执行循环之前，将每个位置的索引添加一下，后面对应的索引做相同的操作
+
+            spans[i].onclick = function(){
+            	for(var j=0;j<spans.length;j++){
+            		spans[j].removeAttribute("class");
+            		// 跟div只用一个属性的排他性，写的方法一致，先清除所有的样式
+            	}	
+            	  this.className = "current";
+                // 将被点击选中的元素的类名设置为current高亮显示
+                
+                var index = this.getAttribute("index");
+                // 被点击之后，先将样式改变一下，再将点击的元素索引获取到，用在下面对应位置的元素的索引  
+
+                for(var k=0;k<lis.length;k++){
+                	lis[k].removeAttribute("class");
+                }
+                // 将下面的div的类名全部清除
+
+                lis[index].className = "current";
+                // 通过相同位置的索引，将下面显示对应的标签
+            }
+    	}
+    </script>
+
+</body> 	
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#div{
+			width: 300px;
+			height: 400px;
+			background-color: blue;
+		}
+		#div2{
+			width: 300px;
+			height: 400px;
+			background-color: blue;
+		}
+		ul{
+			margin: 0;
+		}
+		/*进行测试的时候，发现div显示部分会向下移动一些，强迫症的我没有办法接受*/
+		/*同时，在找出原因的时候，因为只测试input和div的样式，现在回想起来逻辑有问题*/
+		/*出现了bug是在创建列表之后出现的，所以应该在后来创建的元素标签上找bug*/
+	</style>
+</head>
+<body>
+
+    <a href=""></a>
+    <input type="button" value="点击创建列表" id="btn">
+    <div id="div"></div>
+
+    <br>
+    <input type="button" value="点击创建列表" id="btn2">
+    <div id="div2"></div>
+
+	<script>
+        function myGet(id){
+        	return document.getElementById(id);
+        }
+
+		var names=["陈小帅","陈大帅","陈帅帅","chenxiaoshuai"];
+		myGet("btn").onclick = function(){
+            var str="<ul>";
+            for(var i=0; i<names.length; i++){
+            	str+="<li>"+names[i]+"</li>";
+            }
+            str+="</ul>";
+            //一定注意将首尾双标签区分开
+            myGet("div").innerHTML=str;
+		}
+		    //这个例子通过循环创建大量的li，通过字符串的拼接用innerHTML方式创建，带内容的元素
+
+
+		var names2=["陈小帅","陈大帅","陈帅帅","chenxiaoshuai"]; 
+
+		myGet("btn2").onclick = function(){
+			var ulObj = document.createElement("ul");
+			myGet("div2").appendChild(ulObj);
+            // 先创建元素，并将返回的ul标签的对象追加到div2上
+
+			for(var i=0; i<names2.length; i++){
+				var liObj = document.createElement("li");
+				// 通过循环创建li标签和对象上面的个数一样多
+
+				liObj.innerHTML = names2[i];
+				ulObj.appendChild(liObj);
+				// 创建完li标签之后，通过innerHTML添加元素内容，并追加到本来ul标签中
+			}
+		}   
+		     //通过createElement()方式创建元素，但是使用时需要追加到父元素中，可以添加div等布局元素
+	</script>
+</body>
+</html>

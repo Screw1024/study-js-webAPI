@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	    #box {
+	      width: 450px;
+	      margin: 200px auto;
+	    }
+
+	    #txt {
+	      width: 350px;
+	    }
+
+	    #pop {
+	      width: 350px;
+	      border: 1px solid red;
+	    }
+
+	    #pop ul {
+	      margin: 10px;
+	      padding: 0px;
+	      width: 200px;
+	      list-style-type: none;
+	    }
+    </style>
+</head>
+<body>
+	<div id="box">
+		<input type="text" id="txt">
+        <input type="button" value="搜索" id="btn">
+    </div>
+
+    <script type="text/javascript">
+	    var keywords = [
+	    "德鲁伊真好玩","av娜被削了，不想玩德鲁伊了","谢娜真有意思",
+	    "非正常死亡真好看","apple x max巨贵","贵有贵的道理","德鲁伊，真的是贵"
+	    ];
+
+	    function myGet(id){
+	    	return document.getElementById(id);
+	    }
+
+	    function setInnerText(element, text) {
+           if (typeof element.textContent == "string") {
+              element.textContent = text;
+           } else {
+              element.innerText = text;
+           }
+        }
+        // 下面德setInnerText第一次不能兼容，写了一个兼容代码开心，这里上面的判断
+        // 条件是 == "string"判断是不是字符串类型，既没有省略typeof并且不判断 =="undefined"而影响运行效率
+        
+        myGet("txt").onkeyup = function(){
+            if(myGet("div")){
+            	myGet("box").removeChild(myGet("div"));
+            };
+            // 每次键盘弹起时，判断是否有已经有div，有时输入多个匹配字时，删除键按下一次，还会有匹配德又会追加到
+            // 原来已经创建德div后面造成bug
+            
+
+        	var text = this.value;
+        	// 获取文本框中输入的内容
+
+        	var tempArr = [];
+        	// 创建的临时数组，用于存放符合条件的数据
+
+        	for(var i=0; i<keywords.length; i++){
+        		if (keywords[i].indexOf(text) == 0) {
+        			// 判断keywords数组中的每一个字符串的索引第一个字的索引时候一样
+        			tempArr.push(keywords[i]);
+        			// 如果一样，将这个字符串追加到上面一步定义的空数组中
+        		}
+        	}
+            
+            if(this.value.length==0){
+            	if(myGet("div")){
+            		myGet("box").removeChild(myGet("div"));
+            	}
+            	return;
+            	// 在函数中，遇到return停止执行下面德代码。
+            	// 如果这里不停止，下面继续执行代码德话，又会创建一个div
+            }
+            // 当输入没有匹配值的时候，或者原来有匹配值后来
+
+            var divObj = document.createElement("div");
+            myGet("box").appendChild(divObj);
+            divObj.id = "div";
+            divObj.style.width = "350px";
+            divObj.style.border = "1px solid blue";
+            // 在js中设置元素的属性，不能通过.weith和.height来直接实现，中间要通过.style过渡
+            // 通过元素对象的创建，然后设置样式，div的高度不用设置，其高度可以被p标签直接撑开
+  
+
+            for(var i=0; i<tempArr.length; i++){
+            	var pObj = document.createElement("P");
+            	// 创建元素，标签名一定要用大写
+            	divObj.appendChild(pObj);
+            	setInnerText(pObj,tempArr[i]);
+            	pObj.style.margin = 0;
+            	pObj.style.padding = 0;
+            	pObj.style.corsor = "pointer";
+            	pObj.style.marginTop = "5px";
+            	pObj.style.marginLeft = "5px";
+
+            	pObj.onmouseover = function(){
+	               this.style.backgroundColor = "green";
+	            }
+            	pObj.onmouseout = function(){
+	               this.style.backgroundColor = "#fff";
+	            }
+	            // 尝试将这个匿名函数，写成命名函数写到前面如 
+            	// function mouseover(element){
+	            //    this.element.style.backgroundColor = "green";
+	            // }
+	            // 怎么写都是错，希望以后解决
+
+            }
+        }
+    </script>
+	
+</body>
+</html>

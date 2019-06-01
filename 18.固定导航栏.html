@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+    * {
+      margin: 0;
+      padding: 0
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    .main {
+      margin: 0 auto;
+      width: 1000px;
+      margin-top: 10px;
+
+    }
+
+    .fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+  <body>
+	<div class="top" id="topPart">
+	  <img src="images18/top.png">
+	</div>
+	<div class="nav" id="navBar">
+	  <img src="images18/nav.png">
+	</div>
+	<div class="main" id="mainPart">
+	  <img src="images18/main.png">
+	</div>	
+
+	<script type="text/javascript">
+
+		function myGet(id){
+        return document.getElementById(id);
+		}
+        
+    window.onscroll = function(){
+        	if(getScroll().top>=myGet("topPart").offsetHeight){
+        		// 滚动条向上移动的距离如果大于导航栏上面图片的高，就将导航栏的
+        		// 类名设置为固定定位导航栏的类名
+            myGet("navBar").className = "nav fixed";
+            myGet("mainPart").style.marginTop = myGet("navBar").offsetHeight + "px";
+        	}else{
+        		// 返回的时候，将导航栏的类名改为原来的名字
+        	  myGet("navBar").className = "nav";
+        	  myGet("mainPart").style.marginTop = "10px";
+        	}
+        }
+
+        
+		function getScroll(){
+			return{
+				left: window.pageXOffset || document.documentElement.scrollLeft ||
+				document.body.scrollLeft || 0,
+				// document.documentElement在浏览器中代表着body标签
+				top: window.pageYOffset || document.documentElement.scrollTop ||
+				document.body.scrollTop || 0
+			    // pageXOffset和pageYOffset都是浏览器中的window的对象将滚动条理解为浏览器的
+			}; 
+		}
+		// 最后0代表浏览器上面三种都不支持，0代表获取不到滚动条
+	</script>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="选我选我">
+	<input type="button" value="选我选我">
+	<input type="button" value="选我选我">
+	<input type="button" value="选我选我">
+	<input type="button" value="选我选我">
+
+	<script type="text/javascript">
+		var inpObjs = document.getElementsByTagName('input');
+		// 通过标签类别获取对象，储存为伪数组的形式，可以像数组一样遍历
+		for (var i=0; i<inpObjs.length;i++) {
+			//为每个input标签，添加一个点击的方法
+			inpObjs[i].onclick = function(){
+				for(var j=0;j<inpObjs.length;j++){
+					inpObjs[j].value = "选我选我";
+				}
+				// 在响应onclick之前，先将全部的标签内容设置为跟没选状态时一致
+			this.value = "haha,选了我！";
+			// 在js中，this可以用来代替当前的元素对象，这里最后赋值区别于其他标签
+			}	
+		}
+		// 同时注意，上面的input添加点击的响应事件，用的for循环，是在加载页面的时候执行的，
+		// 而onclick事件后面的的for循环，是需要将点击之后，响应这个操作之后执行的
+	</script>
+</body>
+</html>

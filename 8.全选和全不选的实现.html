@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .wrap {
+      width: 300px;
+      margin: 100px auto 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      border: 1px solid #c0c0c0;
+      width: 300px;
+    }
+
+    th,
+    td {
+      border: 1px solid #d0d0d0;
+      color: #404060;
+      padding: 10px;
+    }
+
+    th {
+      background-color: #09c;
+      font: bold 16px "微软雅黑";
+      color: #fff;
+    }
+
+    td {
+      font: 14px "微软雅黑";
+    }
+
+    tbody tr {
+      background-color: #f0f0f0;
+    }
+
+    tbody tr:hover {
+      cursor: pointer;
+      background-color: #fafafa;
+    }
+  </style>
+</head>
+<body>
+	<div class="wrap">
+	  <table>
+	    <thead>
+	    <tr>
+	      <th>
+	        <input type="checkbox" id="j_cbAll"/>
+	      </th>
+	      <th>课程</th>
+	      <th>学分</th>
+	    </tr>
+	    </thead>
+	    <tbody id="j_tb">
+	    <tr>
+	      <td>
+	        <input type="checkbox"/>
+	      </td>
+	      <td>node</td>
+	      <td>5</td>
+	    </tr>
+	    <tr>
+	      <td>
+	        <input type="checkbox"/>
+	      </td>
+	      <td>java</td>
+	      <td>6</td>
+	    </tr>
+	    <tr>
+	      <td>
+	        <input type="checkbox"/>
+	      </td>
+	      <td>c#</td>
+	      <td>4</td>
+	    </tr>
+	    <tr>
+	      <td>
+	        <input type="checkbox"/>
+	      </td>
+	      <td>python</td>
+	      <td>1</td>
+	    </tr>
+
+	    </tbody>
+	  </table>
+	</div>
+
+    <script>
+      function myGet(id){
+      	return document.getElementById(id);
+      }
+      
+      var cbAll = myGet("j_cbAll");
+      // 全选按钮的复选框
+      var cbs = myGet("j_tb").getElementsByTagName("input");
+      // table下面所有小的复选框
+
+      cbAll.onclick = function(){
+      	 for(var i=0; i<cbs.length; i++){
+      	 	cbs[i].checked = this.checked;
+      	 }
+      	 // 当上面全选按钮被点击时，将他的checked状态全部赋值给下面所有的子元素
+      };
+
+      for(var i=0; i<cbs.length; i++){
+      	  cbs[i].onclick = function(){
+      		var flag = true;
+      		// 全选按钮状态的标志
+
+      		for(var j=0; j<cbs.length; j++){
+              if(!cbs[j].checked){
+              	flag = false;
+              	break;
+              	// 每次下面的小选框被选中时，执行循环遇到一个没有被选中的就跳出循环
+              }
+      		}
+      		cbAll.checked = flag;
+      	}
+      };
+      
+    </script>
+</body>
+</html>

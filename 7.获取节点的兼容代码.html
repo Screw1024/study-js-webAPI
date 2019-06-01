@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function getFirstElementChild(element){
+			if(typeof element.firstElementChild != "undefined"){
+				// 每一个兼容代码都是通过，不支持浏览器定义为undefied作为突破口
+				return element.firstElementChild;
+			}else{
+				var node = element.firstChild;
+				// 获取第一个节点（可能是空白文本）
+				while(node&&node.nodeType!=1){
+					node = node.nextSibling;
+					// 因为所有的浏览器都支持.nextSbling所以，一直向下遍历直到这个节点是第一个标签
+				}
+				return node;
+			}
+		}
+		// 获取父级元素第一个子元素
+	</script>
+
+	<script type="text/javascript">
+		function getLastElementChild(element){
+			if(typeof element.lastElementChild != "undefined"){
+				return element.lastElementChild;
+			}else{
+				var node = element.laststChild;
+				while(node&&node.nodeType!=1){
+					node = node.previousSibling;
+				}
+				return node;
+			}
+		}
+		// 获取父级元素最后一个子元素
+	</script>
+</body>
+</html>

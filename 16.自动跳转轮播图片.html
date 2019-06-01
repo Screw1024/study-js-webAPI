@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+    body, ul, ol, li, img {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+     ul {
+      list-style: none;
+
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    /*取消图片底部3像素距离*/
+    .box {
+      width: 520px;
+      height: 280px;
+      margin: 100px auto;
+      border: 1px solid red;
+      position: relative;
+      /*overflow: hidden;*/
+    }
+
+    .box ul li {
+      float: left;
+    }
+
+    .box ul {
+      width: 150000px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+	<div class="box" id="screen">
+	    <ul>
+	      <li><img src="images15/01.jpg"/></li>
+	      <li><img src="images15/02.jpg"/></li>
+	      <li><img src="images15/03.jpg"/></li>
+	      <li><img src="images15/04.jpg"/></li>
+	      <li><img src="images15/01.jpg"/></li>
+	      <!-- 第一张图片跟最后一张图片设置成一样的图片，在图片跳转时，可以将跳转变化降到最小 -->
+	    </ul>
+	</div>
+
+	<script type="text/javascript">
+		function myGet(id){
+			return document.getElementById(id);
+		}
+
+        var current = 0; 
+        var ulObj = myGet("screen").children[0];
+        // 还是原来的注意点，这样会节省内存，如果放到计时器里面，每次执行开辟一块空间
+        function f1(){
+        	current -= 10;
+        	// 每次移动10px
+          
+            if(current<-2080){
+              ulObj.style.left = 0 +"px";
+              current = 0;
+              // 移动到最后一张图片时候，将移动的位置从0开始计算
+            }else
+              ulObj.style.left = current + "px";
+        }
+
+        var intervalName = setInterval(f1,50);
+
+        myGet("screen").onmouseover = function(){
+        	clearInterval(intervalName);
+        	// 鼠标进入清理计时器
+        }
+        myGet("screen").onmouseout = function(){
+        	intervalName = setInterval(f1,50);
+        	// 上面通过var intervalName定义的是全局变量，这里再次定义一个新的计时器前面不用var声明名字
+
+        }
+	</script>	
+</body>
+</html>

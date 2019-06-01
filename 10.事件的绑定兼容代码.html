@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绑定多个事件</title>
+</head>
+<body>
+    <input type="button" value="点我不花钱" id="btn">
+
+	<script type="text/javascript">
+        function myGet(id){
+        	return document.getElementById(id);
+        }
+
+		function addEventListener(element,type,fn){
+			// 这个自定义的函数跟下面的方法重名注意区分
+			if(typeof element.addEventListener != "undefined"){
+				// 一定要注意，undefined是字符串类型，如果去掉在IE中死循环
+				element.addEventListener(type,fn,false);
+			}else if(typeof element.attachEvent != "undefined"){
+				element.attachEvent("on"+type,fn);
+				// 响应事件名字如click应该直接写也能直接表达他的意思，而微软非要在前面加一个"on"
+			}else{
+				element["on"+type] = fn;
+				// 如果浏览器上面两个都不兼容，只能写这样一种
+			}
+		} 
+
+		addEventListener(myGet("btn"),"click",function () {
+		  console.log("陈小帅");
+		});
+		addEventListener(myGet("btn"),"click",function () {
+		  console.log("是真的");
+		});
+		addEventListener(myGet("btn"),"click",function () {
+	      console.log("真的好帅啊");
+	    });
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function setInnerText(element,text){
+			if (typeof element.textContent == "undefined") {
+            // js是一门动态类型的语言，通过.语法可以动态创建出来，而未实例化就是下面
+			// 如果某一浏览器不支持一个属性，那么这个浏览器一般默认将这个属性的类型设置为undefined
+				element.innerText=text;
+			}else{
+				element.textContent=text;
+			}
+		}
+		// 设置文本内容的兼容代码
+
+		function getInnerText(element){
+            if(typeof element.textContent == "undefined"){
+            	return element.innerText;
+            }else{
+            	return element.textContent;
+            }
+		}
+		// 获取文本内容的兼容代码
+	</script>
+</body>
+</html>
